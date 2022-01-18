@@ -1,6 +1,9 @@
 # TLT with Yolov4
 
 Phần này mình sẽ đề cập đến việc train-prune-quantization-export model Yolov4 trên TLT
+<p align="center">
+  <img src="../fig/nvidia-retrain-qat.png" width="1000">
+</p>
 
 ## 1. Dataset
 
@@ -97,8 +100,8 @@ yolov4_config {
   arch: "resnet"
   nlayers: 18
   arch_conv_blocks: 2
-  loss_loc_weight: 1.0
-  loss_neg_obj_weights: 1.0
+  loss_loc_weight: 5.0
+  loss_neg_obj_weights: 50.0
   loss_class_weights: 1.0
   label_smoothing: 0.0
   big_grid_xy_extend: 0.05
@@ -109,7 +112,6 @@ yolov4_config {
   force_relu: false
 }
 training_config {
-  enable_qat: true
   batch_size_per_gpu: 8
   num_epochs: 80
   enable_qat: false
@@ -435,5 +437,8 @@ top_right     AP    0.90664
 ## 5. Re-train pruned model
 Để khôi phục lại độ chính xác sau khi prune, làm tương tự như training model, ta tiến hành re-train với một số điều chỉnh như sau
 - ```pruned_model_path```: đường dẫn tới pruned model ở bước 4
+- Thêm ```enable_qat=true``` vào ```training_config```
 - ```type``` của ```regularizer``` nên để là ```NO_REG``` để pruned model hội tụ tốt hơn về phía model gốc
 
+Reference
+- TAO Toolkit - Yolov4: https://docs.nvidia.com/tao/tao-toolkit/text/object_detection/yolo_v4.html

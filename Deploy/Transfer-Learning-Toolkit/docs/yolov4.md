@@ -2,7 +2,7 @@
 
 Phần này mình sẽ đề cập đến việc train-prune-quantization-export model Yolov4 trên TLT
 
-### 1. Dataset
+## 1. Dataset
 
 Mình sẽ lấy ví dụ trên bài toán license-plate detection, dữ liệu ban đầu mình định training ở định dạng Darknet, ta cần convert sang định dạng KITTI
 - Cấu trúc thư mục
@@ -55,9 +55,9 @@ cyclist 0.00 0 0.00 665.45 160.00 717.93 217.99 0.00 0.00 0.00 0.00 0.00 0.00 0.
 pedestrian 0.00 0 0.00 423.17 173.67 433.17 224.03 0.00 0.00 0.00 0.00 0.00 0.00 0.00
 ```
 
-### 2. Training
+## 2. Training
 
-#### 2.1 Calculate anchor boxes (Optionals)
+### 2.1 Calculate anchor boxes (Optionals)
 Ta có thể tính toán lại anchor để khớp với dữ liệu hiện tại hơn so với việc sử dụng anchors mặc định. Ở đây mình sử dụng 9 anchors (mặc định) với input đầu vào là **320x320**
 ```
 docker run -it --gpus device=0 \
@@ -82,10 +82,10 @@ Please use following anchor sizes in YOLO config:
 (112.64, 53.33)
 ```
 
-#### 2.2 Setup Training
+### 2.2 Setup Training
 
 - Download pretrained object detection tại: https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/pretrained_object_detection/files?version=resnet18
-- Tạo file ```config.pbtxt``` như sau (có thể thay các anchors ở **bước 2.1**):
+- Tạo file ```config.txt``` như sau (có thể thay các anchors ở **bước 2.1**):
 ```
 random_seed: 42
 yolov4_config {
@@ -109,6 +109,7 @@ yolov4_config {
   force_relu: false
 }
 training_config {
+  enable_qat: true
   batch_size_per_gpu: 8
   num_epochs: 80
   enable_qat: false
@@ -222,7 +223,17 @@ dataset_config {
 #### 2.3 Training
 
 Tiến hành training model, ước tính tốc độ khoảng 10p/epoch
-
+```
+docker run -it \
+    --gpus device=GPU-82864c44-d125-bf84-645f-e800925bf730 \
+    -v <path-to-exp-dir>:/yolov4 \
+    nvcr.io/nvidia/tao/tao-toolkit-tf:v3.21.11-tf1.15.4-py3 \
+    yolo_v4 train -r /yolov4/result -e /yolov4/config.txt -k license-plate-yolov4
+```
+trong đó
+- ```-e```: đường dẫn đến file config
+- ```-r```: đường dẫn đến thư mục rỗng ta vừa tạo ở trên, để lưu kết quả
+- ```-k```: encryption key (dùng để bảo mật)
 ```
 Epoch 1/80
 1794/1794 [==============================] - 583s 325ms/step - loss: 5318.8814
@@ -323,4 +334,106 @@ top_right     AP    0.90646
 Validation loss: 19.06179749778819
 
 Epoch 00030: saving model to /yolov4/result/weights/yolov4_resnet18_epoch_030.tlt
+.
+.
+.
+*******************************
+bottom_left   AP    0.90807
+bottom_right  AP    0.90862
+license_plate AP    0.90787
+top_left      AP    0.90773
+top_right     AP    0.90664
+              mAP   0.90779
+*******************************
+Validation loss: 13.344748003729459
+
+Epoch 00080: saving model to /yolov4/result/weights/yolov4_resnet18_epoch_080.tlt
 ```
+Kết thúc quá trình training, ta có thể xem tham số mAP từ file ```csv``` trong thư mục result
+
+## 3. Evaluate
+Tiến hành evaluate model, ở đây mình chọn model epoch 80
+```
+docker run -it \
+        --gpus device=GPU-82864c44-d125-bf84-645f-e800925bf730 \
+        -v <path-to-exp-dir>:/yolov4 \
+        nvcr.io/nvidia/tao/tao-toolkit-tf:v3.21.11-tf1.15.4-py3 \
+        yolo_v4 evaluate -m /yolov4/result/weights/yolov4_resnet18_epoch_080.tlt -e /yolov4/config.txt -k license-plate-yolov4
+```
+```
+Start to calculate AP for each class
+*******************************
+bottom_left   AP    0.90807
+bottom_right  AP    0.90862
+license_plate AP    0.90787
+top_left      AP    0.90773
+top_right     AP    0.90664
+              mAP   0.90779
+*******************************
+```
+## 4. Prune
+Tiến hành prune model loại bỏ các tham số thừa để tối ưu tốc độ
+```
+docker run -it \
+        --gpus device=GPU-82864c44-d125-bf84-645f-e800925bf730 \
+        -v /home/damnguyen/Deploy/transfer-learning-toolkit/license-plate-yolov4:/yolov4 \
+        nvcr.io/nvidia/tao/tao-toolkit-tf:v3.21.11-tf1.15.4-py3 \
+        yolo_v4 prune \
+            -m /yolov4/result/weights/yolov4_resnet18_epoch_080.tlt \
+            -o /yolov4/result/yolov4_resnet18_epoch_080_pruned.tlt \
+            -k license-plate-yolov4 \
+            -eq union \
+            -pth 0.7 \
+            -e /yolov4/config.txt
+
+2022-01-18 02:35:26,737 [INFO] modulus.pruning.pruning: Exploring graph for retainable indices
+2022-01-18 02:35:39,242 [INFO] modulus.pruning.pruning: Pruning model and appending pruned nodes to new graph
+2022-01-18 02:39:38,593 [INFO] __main__: Pruning ratio (pruned model / original model): 0.26947645427472383
+```
+Model pruned của mình có kích thước 22.256.768, nhỏ hơn 10 lần so với model gốc 243.042.320, còn số lượng tham số bằng **0.269** tham số model gốc, tuy nhiên tiến hành evaluate độ chính xác bị giảm rất nhiều (chỉ số ```pth (threshold)``` càng lớn thì pruned model càng nhỏ, độ chính xác giảm càng nhiều)
+```
+pth = 0.7
+*******************************
+bottom_left   AP    0.52821
+bottom_right  AP    0.52314
+license_plate AP    0.17404
+top_left      AP    0.53707
+top_right     AP    0.50506
+              mAP   0.4535
+*******************************
+
+pth = 0.5
+*******************************
+bottom_left   AP    0.90823
+bottom_right  AP    0.9081
+license_plate AP    0.90761
+top_left      AP    0.9081
+top_right     AP    0.90669
+              mAP   0.90775
+*******************************
+
+pth = 0.3
+*******************************
+bottom_left   AP    0.90746
+bottom_right  AP    0.90858
+license_plate AP    0.90766
+top_left      AP    0.90794
+top_right     AP    0.90693
+              mAP   0.90772
+*******************************
+
+pth = 0.1
+*******************************
+bottom_left   AP    0.90807
+bottom_right  AP    0.90862
+license_plate AP    0.90787
+top_left      AP    0.90774
+top_right     AP    0.90664
+              mAP   0.90779
+*******************************
+```
+## 5. Re-train pruned model
+Để khôi phục lại độ chính xác sau khi prune, làm tương tự như training model, ta tiến hành re-train với một số điều chỉnh như sau
+- ```pruned_model_path```: đường dẫn tới pruned model ở bước 4
+- ```type``` của ```regularizer``` nên để là ```NO_REG``` để pruned model hội tụ tốt hơn về phía model gốc
+

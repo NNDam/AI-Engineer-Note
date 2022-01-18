@@ -439,6 +439,35 @@ top_right     AP    0.90664
 - ```pruned_model_path```: đường dẫn tới pruned model ở bước 4
 - Thêm ```enable_qat=true``` vào ```training_config```
 - ```type``` của ```regularizer``` nên để là ```NO_REG``` để pruned model hội tụ tốt hơn về phía model gốc
+```
+*******************************
+bottom_left   AP    0.9083
+bottom_right  AP    0.90858
+license_plate AP    0.90859
+top_left      AP    0.90869
+top_right     AP    0.90748
+              mAP   0.90833
+*******************************
+Validation loss: 50.97076883824268
+```
+## 6. Inference
+Mình có tập ảnh không nhãn trong thư mục ```test``` bên cạnh thư mục ```train``` và ```valid```, mình sẽ tiến hành lấy pseudo-label cho tập test như sau:
+```
+docker run -it \
+    --gpus device=GPU-82864c44-d125-bf84-645f-e800925bf730 \
+    -v <path-to-exp-dir>:/yolov4 \
+    nvcr.io/nvidia/tao/tao-toolkit-tf:v3.21.11-tf1.15.4-py3 \
+    yolo_v4 inference -i /yolov4/dataset/test \
+                      -o /yolov4/dataset/test_vis \
+                      -e /yolov4/config-pruned.txt \
+                      -m /yolov4/result-retrain/weights/yolov4_resnet18_epoch_010.tlt \
+                      -k license-plate-yolov4 \
+                      -l /yolov4/dataset/test_annotated
+```
+Thư mục ```test_vis``` sẽ chứa ảnh visualize và thư mục ```test_annotated``` sẽ chứa pseudo-label mà mô hình dự đoán, ta có thể sử dụng để fineturning lại model
+<p align="center">
+  <img src="../fig/yolov4-inference.png" width="1000">
+</p>
 
 Reference
 - TAO Toolkit - Yolov4: https://docs.nvidia.com/tao/tao-toolkit/text/object_detection/yolo_v4.html

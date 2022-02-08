@@ -1,0 +1,1 @@
+hatchback;bus;pickup;sedan;suv;truck;van

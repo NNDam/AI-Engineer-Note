@@ -2,12 +2,28 @@
 
 Tất cả những thứ sưu tầm được liên quan đến AI Engineer và Deploy Services 
 
-- Deeplearning Frameworks
-- Deploy
+- [Deeplearning Frameworks](Deeplearning-Framework)
+    + [1. TensorRT](Deeplearning-Framework/TensorRT)
+        + [1.1 Convert ONNX model to TensorRT](Deeplearning-Framework/TensorRT/docs/tutorial.md)
+- [Deploy](Deploy)
     + [1. NVIDIA](Deploy/NVIDIA)
         + [1.1 Multi-instance GPU (MIG)](Deploy/NVIDIA/docs/multi_instance_gpu.md)
     + [2. Deepstream](Deploy/Deepstream)
         + [2.1 Yolov4](Deploy/Deepstream/sample-yolov4)
         + [2.2 Traffic Analyst](Deploy/Deepstream/sample-ALPR)
     + [3. Triton Inference Server](Deploy/Triton-inference-server)
+        - [3.1 Cài đặt triton-server và triton-client](Deploy/Triton-inference-server/docs/install.md)
+            + [3.1.1 Các chế độ quản lý model (load/unload/reload)](Deploy/Triton-inference-server/docs/model_management.md)
+        - [3.2 Sơ lược về các backend trong Triton](Deploy/Triton-inference-server/docs/backend.md)
+        - [3.3 Cấu hình cơ bản khi deploy mô hình](Deploy/Triton-inference-server/docs/model_configuration.md)
+        - [3.4 Deploy mô hình](#)
+            - [3.4.1 ONNX-runtime](Deploy/Triton-inference-server/docs/triton_onnx.md)
+            - [3.4.2 TensorRT](Deploy/Triton-inference-server/docs/triton_tensorrt.md)
+            - [3.4.3 Pytorch & TorchScript](Deploy/Triton-inference-server/docs/triton_pytorch.md)
+            - [3.4.4 Kaldi <i>(Advanced)</i>](Deploy/Triton-inference-server/docs/triton_kaldi.md)
+        - [3.5 Model Batching](Deploy/Triton-inference-server/docs/model_batching.md)
+        - [3.6 Ensemble Model và pre/post processing](Deploy/Triton-inference-server/docs/model_ensemble.md)
+        - [3.7 Sử dụng Performance Analyzer Tool](Deploy/Triton-inference-server/docs/perf_analyzer.md)
+        - [3.8 Optimizations](#)
+            + [3.8.1 Tối ưu Pytorch backend](Deploy/Triton-inference-server/docs/optimization_pytorch.md)
     + [4. TAO Toolkit (Transfer-Learning-Toolkit)](Deploy/Transfer-Learning-Toolkit)

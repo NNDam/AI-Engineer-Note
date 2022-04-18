@@ -17,3 +17,4 @@ libjansson4=2.11-1
 ## 2. Examples
 - [Sample Yolov4](sample-yolov4)
 - [Sample ALPR](sample-ALPR) 
+- [Sample SCRFD Face Detection](sample-scrfd) 

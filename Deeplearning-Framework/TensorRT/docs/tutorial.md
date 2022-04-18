@@ -26,8 +26,9 @@ Sau khi convert model sang ONNX, ta cần xác định kích thước của inpu
 Như vậy ta có:
 - **dynamic batch**: chỉ **batch** dạng động, các shape khác giữ nguyên, chẳng hạn [-1, 3, 640, 640] thì ta có các input thỏa mãn là [1, 3, 640, 640], [7, 3, 640, 640], ... các input không thỏa mãn là [1, 3, 640, 512], [1, 4, 640, 640], ...
 - **static shapes**: chỉ chấp nhận 1 kích thước cố định, chẳng hạn [4, 3, 640, 640] chỉ chấp nhận input [4, 3, 640, 640], còn [7, 4, 640, 512] chỉ chấp nhận input [7, 4, 640, 512], ...
-- **dynamic shapes**: một số các dimension động, chẳng hạn [-1, 3, -1, 32] có thể chấp nhận các input [4, 3, 214, 32], [12, 3, 320, 32], ...
-Thông thường ta chỉ quan tâm **dynamic shapes** và **static shapes**
+- **dynamic shapes**: một số các dimension động, chẳng hạn [-1, 3, -1, 32] có thể chấp nhận các input [4, 3, 214, 32], [12, 3, 320, 32], ...<br>
+
+Thông thường ta chỉ quan tâm **dynamic shapes** và **static shapes**.
 
 Tiến hành convert (serialize), ta có 2 kiểu convert model chính là **implicitBatch** (mặc định) và **explicitBatch**. Giá trị batch_size được hiểu mặc định là giá trị đầu tiên, như trong model phía trên của mình đó là giá trị **-1**, nếu như trong trường hợp trên model của mình có kích thước input là **[1, 3, 640, 640]** thì model không hỗ trợ **dynamic shapes** mà chỉ hỗ trợ **static shapes**, tức là chấp nhận 1 kích thước đầu vào duy nhất. Tuy nhiên ta có một số phương pháp hỗ trợ convert model ONNX từ **dynamic** thành **static** và ngược lại.
 - **implicitBatch** (default): Hoạt động với model có input dạng **static shapes**

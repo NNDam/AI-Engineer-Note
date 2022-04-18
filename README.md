@@ -12,6 +12,7 @@ Tất cả những thứ sưu tầm được liên quan đến AI Engineer và D
     + [2. Deepstream](Deploy/Deepstream)
         + [2.1 Yolov4](Deploy/Deepstream/sample-yolov4)
         + [2.2 Traffic Analyst](Deploy/Deepstream/sample-ALPR)
+        + [2.3 SCRFD Face Detection (custom parser & NMS plugin with landmark)](Deploy/Deepstream/sample-scrfd)
     + [3. Triton Inference Server](Deploy/Triton-inference-server)
         - [3.1 Cài đặt triton-server và triton-client](Deploy/Triton-inference-server/docs/install.md)
             + [3.1.1 Các chế độ quản lý model (load/unload/reload)](Deploy/Triton-inference-server/docs/model_management.md)

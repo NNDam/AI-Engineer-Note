@@ -9,5 +9,5 @@ make -j8
 
 ## Run deepstream-python
 ```
-python3 run_scrfd.py file:/<path-to-input-video>
+LD_PRELOAD=<path-to-plugin.so> python3 run_scrfd.py file:/<path-to-input-video>
 ```

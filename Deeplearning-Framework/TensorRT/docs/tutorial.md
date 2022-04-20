@@ -130,7 +130,6 @@ def do_inference(context, bindings, inputs, outputs, stream):
 Tiến hành reshape lại dữ liệu outputs tùy vào yêu cầu của bài toán và thực hiện các post-processing khác
 
 ## Example repositories
-- [Simple VGG16 Image Classification](https://git.icomm.vn/ICTensortRT/VGG16)
 - [Retinaface](https://github.com/NNDam/Retinaface-TensorRT)
 - [vietocr](https://github.com/NNDam/vietocr-tensorrt) 
 - [yolor](https://github.com/NNDam/yolor)

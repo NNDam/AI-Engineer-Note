@@ -20,11 +20,11 @@ cd pytorch
 export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
 USE_NCCL=ON USE_CUDNN=OFF USE_CUDA=ON USE_MKL=OFF USE_MKLDNN=OFF python setup.py install
 ```
-## Compatible version
-TorchVision: 0.10.1
-OpenCV: 4.6.0
-MMCV: 1.3.3
-MMCV Compiler: GCC 9.4
-MMCV CUDA Compiler: 11.3
-MMDetection: 2.7.0+e78eee5
+## Compatible with
+- TorchVision: 0.10.1
+- OpenCV: 4.6.0
+- MMCV: 1.3.3
+- MMCV Compiler: GCC 9.4
+- MMCV CUDA Compiler: 11.3
+- MMDetection: 2.7.0+e78eee5
 

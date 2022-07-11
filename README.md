@@ -5,6 +5,8 @@ Tất cả những thứ sưu tầm được liên quan đến AI Engineer và D
 - [Deeplearning Frameworks](Deeplearning-Framework)
     + [1. TensorRT](Deeplearning-Framework/TensorRT)
         + [1.1 Convert ONNX model to TensorRT](Deeplearning-Framework/TensorRT/docs/tutorial.md)
+    + [2. Pytorch](Deeplearning-Framework/Pytorch)
+        + [2.1 Build Pytorch from source (Optimize speed for AMD CPU & NVIDIA GPU)](Deeplearning-Framework/Pytorch/docs/build_from_source.md)
 - [Deploy](Deploy)
     + [1. NVIDIA](Deploy/NVIDIA)
         + [1.1 Multi-instance GPU (MIG)](Deploy/NVIDIA/docs/multi_instance_gpu.md)

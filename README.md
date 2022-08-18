@@ -1,7 +1,8 @@
 # AI-Engineer-Note
 
 Tất cả những thứ sưu tầm được liên quan đến AI Engineer và Deploy Services 
-
+- [Linux & CUDA & APT-Packages](Linux)
+    + [FAQ](Linux/)
 - [Deeplearning Frameworks](Deeplearning-Framework)
     + [1. TensorRT](Deeplearning-Framework/TensorRT)
         + [1.1 Convert ONNX model to TensorRT](Deeplearning-Framework/TensorRT/docs/tutorial.md)

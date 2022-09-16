@@ -122,7 +122,25 @@ pip install --user -e .
 
 </details>
 
+  
 <details><summary><b>Tensorflow could not load dynamic library 'cudart64_101.dll'</b></summary>
 For above example tensorflow would require CUDA 10.1, please switch to CUDA 10.1 or change tensorflow version which compatible with CUDA version, check here: https://www.tensorflow.org/install/source#gpu
 </details>
 
+### Computer Vision
+
+<details><summary><b>Gstreamer pipeline to convert RTSP-RTMP</b></summary>
+
+```
+gst-launch-1.0 rtspsrc location='rtsp://<path-to-rtsp-input>' ! rtph264depay ! h264parse ! flvmux ! rtmpsink location='rtmp://rtmp://<path-to-rtmp-output>'
+```
+
+</details>
+
+<details><summary><b>Gstreamer pipeline to convert RTSP-RTMP with reducing resolution</b></summary>
+
+```
+gst-launch-1.0 rtspsrc location='rtsp://<path-to-rtsp-input>' ! rtpbin ! rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! videoscale ! video/x-raw,width=640,height=640 ! x264enc ! h264parse ! flvmux streamable=true ! rtmpsink location='rtmp://<path-to-rtmp-output>'
+```
+
+</details>  

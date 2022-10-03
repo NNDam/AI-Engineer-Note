@@ -128,7 +128,14 @@ For above example tensorflow would require CUDA 10.1, please switch to CUDA 10.1
 </details>
 
 ### Computer Vision
+<details><summary><b>Gstreamer pipeline to convert MP4-MP4</b></summary>
 
+```
+gst-launch-1.0 filesrc location="path-to-input" ! qtdemux ! video/x-h264 ! h264parse ! qtmux ! filesink location=<path-to-output>
+```
+
+</details>
+  
 <details><summary><b>Gstreamer pipeline to convert RTSP-RTMP</b></summary>
 
 ```

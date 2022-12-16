@@ -1,7 +1,6 @@
 # FFMPEG hardware acceleration with Nvidia Video SDK
 ## 1. Requirements
 - GPU with hardware-acceleration support, check here: https://developer.nvidia.com/video-encode-and-decode-gpu-support-matrix-new
-- 
 <p align="center">
   <img src="../fig/support_nvenc_nvdec.png" width="1080">
   <i>Example of NVDEC support</i>

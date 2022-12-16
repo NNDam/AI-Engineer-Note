@@ -32,10 +32,6 @@ sudo make install
 
 sudo ldconfig
 
-```
-If you meet 
-- Check FFMPEG
-```
 ffmpeg --help
 ```
 If you meet error about **nvcc**, try to change line 4355 of ```ffmpeg/configure``` to ```nvccflags_default="-gencode arch=compute_35,code=sm_35 -O2"```

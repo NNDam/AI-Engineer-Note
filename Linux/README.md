@@ -7,17 +7,28 @@
 </details>
 
 <details><summary><b>Install Math Kernel Library (MKL/BLAS/LAPACK/OPENBLAS)</b></summary>
-You are recommended to install all Math Kernel Library and then compile framework (e.g pytorch, mxnet) from source using custom config for optimization.
-For AMD CPU, we recommend to use OpenBLAS
+You are recommended to install all Math Kernel Library and then compile framework (e.g pytorch, mxnet) from source using custom config for optimization.</br>
+Install all LAPACK+BLAS:
 
 ```
 sudo apt install libjpeg-dev libpng-dev libblas-dev libopenblas-dev libatlas-base-dev liblapack-dev liblapacke-dev gfortran 
 ```
 
-For Intel CPU, of course we need to use MKL & MKLDNN
+Install MKL:
 
 ```
-sudo apt install intel-mkl-full
+# Get the key
+wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB
+# now install that key
+apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB
+# now remove the public key file exit the root shell
+rm GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB
+# Add to apt
+sudo wget https://apt.repos.intel.com/setup/intelproducts.list -O /etc/apt/sources.list.d/intelproducts.list
+sudo sh -c 'echo deb https://apt.repos.intel.com/mkl all main > /etc/apt/sources.list.d/intel-mkl.list'
+# Install
+sudo apt-get update
+sudo apt-get install intel-mkl-2020.4-912
 ```
 
 </details>

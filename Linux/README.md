@@ -92,6 +92,14 @@ export LD_LIBRARY_PATH=/usr/local/cuda-$CUDA_VER/lib64${LD_LIBRARY_PATH:+:${LD_L
 
 </details>
 
+<details><summary><b>Check NVENV/NVDEC status</b></summary>
+
+```
+nvidia-smi dmon
+```
+see the tab **%enc** and **%dec**
+</details>
+
 <details><summary><b>Error with distributed training NCCL (got freezed)</b></summary>
 
 ```

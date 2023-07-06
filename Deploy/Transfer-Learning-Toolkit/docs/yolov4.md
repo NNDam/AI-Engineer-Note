@@ -469,5 +469,37 @@ Thư mục ```test_vis``` sẽ chứa ảnh visualize và thư mục ```test_ann
   <img src="../fig/yolov4-inference.png" width="1000">
 </p>
 
+## 7. Export model (để sử dụng trong triton hoặc deepstream)
+- FP16/FP32
+```
+docker run -it \
+    --gpus device=GPU-82864c44-d125-bf84-645f-e800925bf730 \
+    -v <path-to-exp-dir>:/yolov4 \
+    nvcr.io/nvidia/tao/tao-toolkit-tf:v3.21.11-tf1.15.4-py3 \
+    yolo_v4 export -m result-retrain/weights/yolov4_resnet18_epoch_010.tlt \
+                  -k license-plate-yolov4 \
+                  -o yolov4_resnet18_epoch_010-fp32.etlt \
+                  -e config-retrain.txt \
+                  --data_type fp32 \
+```
+
+- INT8 (calibrate with 256*8 images from training set)
+```
+docker run -it \
+    --gpus device=GPU-82864c44-d125-bf84-645f-e800925bf730 \
+    -v <path-to-exp-dir>:/yolov4 \
+    nvcr.io/nvidia/tao/tao-toolkit-tf:v3.21.11-tf1.15.4-py3 \
+    yolo_v4 export -m result-retrain/weights/yolov4_resnet18_epoch_010.tlt \
+                  -k license-plate-yolov4 \
+                  -o yolov4_resnet18_epoch_010-int8.etlt \
+                  -e config-retrain.txt \
+                  --data_type int8 \
+                  --cal_data_file calib.tensor \
+                  --cal_image_dir dataset/train/images \
+                  --cal_cache_file calib.bin \
+                  --batches 256 \
+                  --batch_size 8
+```
+
 Reference
 - TAO Toolkit - Yolov4: https://docs.nvidia.com/tao/tao-toolkit/text/object_detection/yolo_v4.html

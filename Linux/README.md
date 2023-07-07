@@ -54,6 +54,48 @@ sudo reboot
 
 </details>
 
+<details><summary><b>NVIDIA-SMI has failed because it couldn’t communicate with the NVIDIA driver</b></summary>
+  
+First, make sure that you have "Fresh install NVIDIA driver". If not work, try this bellow
+  
+- Make sure the package nvidia-prime is installed:
+
+```
+sudo apt install nvidia-prime
+```
+
+Afterwards, run
+```
+sudo prime-select nvidia
+```
+
+- Make sure that NVIDIA is not in blacklist
+  
+```
+grep nvidia /etc/modprobe.d/* /lib/modprobe.d/*
+```
+
+to find a file containing ```blacklist nvidia``` and remove it, then run
+
+```
+sudo update-initramfs -u
+```
+
+- If get error ```This PCI I/O region assigned to your NVIDIA device is invalid```:
+
+```
+sudo nano /etc/default/grub
+```
+
+edit ```GRUB_CMDLINE_LINUX_DEFAULT="quiet splash pci=realloc=off"```
+
+```
+sudo update-grub
+sudo reboot
+```
+
+</details>
+
 <details><summary><b>Check current CUDA version</b></summary>
 
 ```

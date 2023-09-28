@@ -189,6 +189,22 @@ For above example tensorflow would require CUDA 10.1, please switch to CUDA 10.1
 </details>
 
 ### Computer Vision
+<details><summary><b>Fix Deepstream (6.2+) FFMPEG OpenCV installation</b></summary>
+Fix some errors about undefined reference & not found of libavcodec, libavutil, libvpx, ...
+  
+```
+apt-get install --reinstall --no-install-recommends -y libavcodec58 libavcodec-dev libavformat58 libavformat-dev libavutil56 libavutil-dev gstreamer1.0-libav
+apt install --reinstall gstreamer1.0-plugins-good
+apt install --reinstall libvpx6 libx264-155 libx265-179 libmpg123-0 libmpeg2-4 libmpeg2encpp-2.1-0
+gst-inspect-1.0 | grep 264
+rm ~/.cache/gstreamer-1.0/registry.x86_64.bin
+apt install --reinstall libx264-155
+apt-get install gstreamer1.0-libav
+apt-get install --reinstall gstreamer1.0-plugins-ugly
+```
+
+</details>
+
 <details><summary><b>Gstreamer pipeline to convert MP4-MP4 with re-encoding</b></summary>
 
 ```

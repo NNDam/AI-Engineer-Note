@@ -195,6 +195,30 @@ Tất cả những thứ sưu tầm được liên quan đến AI Engineer và D
         
         </details>
 
+    + <details><summary><b>Broken pipe (Distributed training with NCCL)</b></summary>
+        Run training with args
+        
+        ```
+        NCCL_DEBUG=INFO TORCH_CPP_LOG_LEVEL=INFO TORCH_DISTRIBUTED_DEBUG=INFO torchrun ...
+        ```
+        
+        to gather **socket name** (e.g ```eno1```)
+      
+        ```
+        NCCL INFO NET/IB : No device found.
+        rnd3:77634:79720 [0] NCCL INFO NET/Socket : Using [0]eno1:10.9.3.241<0>
+        rnd3:77634:79720 [0] NCCL INFO Using network Socket
+        ```
+        
+        In other nodes, run with arg
+      
+        ```
+        NCCL_SOCKET_IFNAME=eno1    
+        ```
+        
+        </details>
+
+
     + <details><summary><b>Install CMake from source</b></summary>
         
         ```
@@ -211,7 +235,18 @@ Tất cả những thứ sưu tầm được liên quan đến AI Engineer và D
         ```
         
         </details>
-
+        
+    + <details><summary><b>Install NCCL Backend (Distributed training)</b></summary>
+        
+        ```
+        wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
+        sudo dpkg -i cuda-keyring_1.0-1_all.deb
+        sudo apt-get update
+        sudo apt install libnccl2 libnccl-dev
+        ```
+        
+        </details>
+        
     + <details><summary><b>Install MXNet from source</b></summary>
         
         ```

@@ -1,6 +1,6 @@
 # AI-Engineer-Note
 
-Tất cả những thứ sưu tầm được liên quan đến AI Engineer và Deploy Services 
+A collection for AI Engineer & Deploy Services 
 
 
 - [Deeplearning](Deeplearning)

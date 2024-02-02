@@ -915,7 +915,7 @@ bbox_handler_config{
 ```
 Thư mục ```images_annotated``` sẽ chứa ảnh visualize và thư mục ```labels``` bên trong folder output sẽ chứa pseudo-label mà mô hình dự đoán, ta có thể sử dụng để fineturning lại model
 <p align="center">
-  <img src="../fig/detecnet_v2_infer.jpg" width="1000">
+  <img src="../fig/detectnet_v2-inference.jpg" width="1000">
 </p>
 
 ## 7. Export model (để sử dụng trong triton hoặc deepstream)

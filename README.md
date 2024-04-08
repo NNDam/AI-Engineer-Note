@@ -125,6 +125,12 @@ A collection for AI Engineer & Deploy Services
         ```
         sudo update-initramfs -u
         ```
+ 
+        Get boot log
+      
+        ```
+        journalctl -b | grep NVIDIA
+        ```
         
         - If get error ```This PCI I/O region assigned to your NVIDIA device is invalid```:
         

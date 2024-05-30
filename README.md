@@ -98,7 +98,18 @@ A collection for AI Engineer & Deploy Services
         ```
         
         </details>
-
+        
+    + <details><summary><b>Install CuDNN</b></summary>
+    
+        Install keyring: https://docs.nvidia.com/cuda/cuda-installation-guide-linux/#network-repo-installation-for-ubuntu</br>
+        Install CuDNN9 with CUDA 11
+        ```
+        sudo apt-get update
+        sudo apt-get -y install cudnn9-cuda-11
+        ```
+    
+    </details>
+    
     + <details><summary><b>NVIDIA-SMI has failed because it couldn’t communicate with the NVIDIA driver</b></summary>
   
         First, make sure that you have "Fresh install NVIDIA driver". If not work, try this bellow

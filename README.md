@@ -324,4 +324,37 @@ A collection for AI Engineer & Deploy Services
         gst-launch-1.0 rtspsrc location='rtsp://<path-to-rtsp-input>' ! rtpbin ! rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! videoscale ! video/x-raw,width=640,height=640 ! x264enc ! h264parse ! flvmux streamable=true ! rtmpsink location='rtmp://<path-to-rtmp-output>'
         ```
 
-        </details>  
+     + <details><summary><b>Setup display Deepstream app from remote Ubuntu to local Windows</b></summary>
+
+        ## On Ubuntu Server
+         
+        ```
+        sudo apt update && sudo apt install -y xauth
+        sudo nano /etc/ssh/sshd_config
+        ```
+        Make sure we enabled X11 Forwarding `X11Forwarding yes`
+        
+         
+        ## On local Windows PC
+        Open VSCode --> Run --> Add Configuration --> Append this config
+       
+          ```
+           "terminal.integrated.env.windows": {
+               "DISPLAY": "localhost:10.0"
+          }
+          ```
+          Edit SSH config
+          ```
+          Host x.x.x.x
+          HostName x.x.x.x
+          User user
+          ForwardX11 yes
+          ForwardX11Trusted yes
+          ```
+
+          Start VcXsrv (XLaunch) with: `Multiple windows, Display :10, Disable access control`<br>
+          SSH Via VSCode --> type `xeyes` in cmd (server), the app VcXsrv will automatic show an animate icon
+        
+  </details>
+
+     
